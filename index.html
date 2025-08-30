@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BookStore</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="javascript" href="javascript.js">
+</head>
+<body>
+
+  <header>
+    <h1> Book Store</h1>
+  </header>
+
+
+  <input  type="text" id="searchBox" placeholder="Search..." onkeyup="searchBook()">
+
+  
+  <button class="add" onclick="toggleForm()">+ Add Book</button>
+
+  
+  <div class="form-box" id="formBox">
+    <h3>Add New Book</h3>
+    <input type="text" id="title" placeholder="Book Title">
+    <input type="text" id="author" placeholder="Author">
+    <input type="number" id="price" placeholder="Price">
+    <input type="number" id="quantity" placeholder="Quantity">
+    <button onclick="addBook()">Save Book</button>
+  </div>
+
+  
+
+  
+  <table id="bookTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  
+  <div class="invoice" id="invoice"></div>
+
+  <script>
+    let books = [
+      {id: 1, title: "Start with why", author: "Simon Sinek", price: 80.0, quantity: 13},
+      {id: 2, title: "But how do it know", author: "J. Clark Scott", price: 59.9, quantity: 22},
+      {id: 3, title: "Clean Code", author: "Robert Cecil Martin", price: 50.0, quantity: 5},
+      {id: 4, title: "Zero to One", author: "Peter Thiel", price: 45.0, quantity: 12},
+      {id: 5, title: "You don't know JS", author: "Kyle Simpson", price: 39.9, quantity: 9},
+    ];
+
+   
+    function displayBooks() {
+      let tbody = document.querySelector("#bookTable tbody");
+      tbody.innerHTML = "";
+      books.forEach((book, index) => {
+        let row = `<tr>
+          <td>${book.id}</td>
+          <td>${book.title}</td>
+          <td>${book.author}</td>
+          <td>${book.price}</td>
+          <td>${book.quantity}</td>
+          <td>
+            <button class="edit" onclick="editBook(${index})">Edit</button>
+            <button class="delete" onclick="deleteBook(${index})">Delete</button>
+            <button class="buy" onclick="buyBook(${index})">Buy</button>
+          </td>
+        </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
+
+
+    
+    function toggleForm() {
+      let form = document.getElementById("formBox");
+      form.style.display = (form.style.display === "none" || form.style.display === "") ? "block" : "none";
+    }
+
+   
+    function addBook() {
+      let title = document.getElementById("title").value;
+      let author = document.getElementById("author").value;
+      let price = parseFloat(document.getElementById("price").value);
+      let quantity = parseInt(document.getElementById("quantity").value);
+
+      if (!title || !author || isNaN(price) || isNaN(quantity)) {
+        alert("Please fill all fields!");
+        return;
+      }
+
+      let newBook = {
+        id: books.length + 1,
+        title: title,
+        author: author,
+        price: price,
+        quantity: quantity
+      };
+
+      books.push(newBook);
+      displayBooks();
+      toggleForm(); 
+
+     
+      document.getElementById("title").value = "";
+      document.getElementById("author").value = "";
+      document.getElementById("price").value = "";
+      document.getElementById("quantity").value = "";
+    }
+
+
+    function searchBook() {
+      let key = document.getElementById("searchBox").value.toLowerCase();
+      let rows = document.querySelectorAll("#bookTable tbody tr");
+      rows.forEach(row => {
+        let text = row.innerText.toLowerCase();
+        row.style.display = text.includes(key) ? "" : "none";
+      });
+    }
+
+  
+    function editBook(index) {
+      let newPrice = prompt("Enter new price:", books[index].price);
+      let newQty = prompt("Enter new quantity:", books[index].quantity);
+      if (newPrice && newQty) {
+        books[index].price = parseFloat(newPrice);
+        books[index].quantity = parseInt(newQty);
+        displayBooks();
+      }
+    }
+
+
+ 
+    function deleteBook(index) {
+      if (confirm("Are you sure to delete this book?")) {
+        books.splice(index, 1);
+        displayBooks();
+      }
+    }
+
+ 
+    function buyBook(index) {
+      let qty = parseInt(prompt("Enter quantity to buy:"));
+      let balance = parseFloat(prompt("Enter your balance:"));
+      let book = books[index];
+
+      if (qty > book.quantity) {
+        alert("❌ Not enough stock!");
+        return;
+      }
+      let total = qty * book.price;
+      if (balance < total) {
+        alert("❌ Not enough balance!");
+        return;
+      }
+
+      book.quantity -= qty;
+
+      document.getElementById("invoice").innerHTML = `
+        <h3>🧾 Invoice</h3>
+        <p><b>Book:</b> ${book.title}</p>
+        <p><b>Author:</b> ${book.author}</p>
+        <p><b>Quantity:</b> ${qty}</p>
+        <p><b>Total:</b> ${total}</p>
+        <p><b>Remaining Balance:</b> ${balance - total}</p>
+      `;
+      displayBooks();
+    }
+
+    displayBooks();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+</body>
+</html>

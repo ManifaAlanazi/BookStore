@@ -1,0 +1,102 @@
+body { 
+  font-family: Arial, sans-serif;
+  background: #faf2f7; 
+  margin: 0px;
+}
+
+header{
+  background:#ad0361;
+  width: 100%;
+  color:#fff;
+  padding: 3px;
+  text-align: center;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+#searchBox {
+  margin: 30px auto;
+  width: 300px;
+  height: 40px;
+  font-size: 16px;
+  padding: 0 10px;
+  border: 2px solid #ad0361;
+  border-radius: 8px;
+  padding: center;
+  display: block;
+  
+}
+
+
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  margin: 20px 0;
+}
+
+th, td {
+  border: 1px solid #ee8fc3;
+  padding: 8px;
+  text-align: center; 
+}
+
+th { 
+  background: #ad0361;
+  color: #fff;
+}
+
+button { 
+  padding: 5px 10px;
+  margin: 2px; 
+  border: none; 
+  border-radius: 5px; 
+  cursor: pointer;    
+}
+
+button.edit { 
+  background: #36c457; 
+  color: white; 
+}
+
+button.delete { 
+  background: #dc3545;
+   color: white;  
+}
+
+button.buy { 
+  background: #ffc107; 
+  color: black;
+}
+
+button.add { 
+  background: #ad0361; 
+  color: white; 
+}
+
+.invoice { 
+  background: #f3cde2; 
+  padding: 15px; 
+  margin-top: 20px; 
+  border: 4px solid #ad0361; 
+}
+
+.form-box {
+    display: none;
+    margin: 20px 0;
+    background: #f3cde2;
+    padding: 15px;
+    border: 1px solid #ad0361;
+    border-radius: 8px;
+    color: #1e1e1e;
+}
+
+.form-box input { 
+  margin: 5px; 
+  padding: 8px;
+  border: 1px solid #ad0361;
+  border-radius: 5px;
+}
+
+.form-box button { 
+  background: #28a745; 
+  color: white;
+}
